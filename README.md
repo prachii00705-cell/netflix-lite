@@ -21,7 +21,7 @@ The application allows users to explore popular movies, search for movies, disco
 - Integrated using OpenRouter API
 
 ## Live Demo
-
+https://sprint-8-net.netlify.app/
 
 ## Screenshots
 ### Desktop View
