@@ -7,6 +7,8 @@ import {
 
 import MovieGrid from "../components/MovieGrid";
 import SearchBar from "../components/SearchBar";
+import BackToTop from "../components/BackToTop";
+
 import useDebounce from "../hooks/useDebounce";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
@@ -16,49 +18,105 @@ function Home() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch =
+    useDebounce(search, 500);
 
-  const lastMovieRef = useInfiniteScroll(() => {
-    if (!loading) {
-      setPage((prev) => prev + 1);
-    }
-  });
+  const featuredMovie = movies[0];
+
+  const lastMovieRef =
+    useInfiniteScroll(() => {
+      if (!loading) {
+        setPage((prev) => prev + 1);
+      }
+    });
 
   useEffect(() => {
     async function fetchMovies() {
       setLoading(true);
 
-      let data;
+      try {
+        let data;
 
-      if (debouncedSearch.trim()) {
-        data = await searchMovies(
-          debouncedSearch,
-          page
+        if (debouncedSearch.trim()) {
+          data = await searchMovies(
+            debouncedSearch,
+            page
+          );
+        } else {
+          data = await getPopularMovies(
+            page
+          );
+        }
+
+        setMovies((prev) =>
+          page === 1
+            ? data.results
+            : [...prev, ...data.results]
         );
-      } else {
-        data = await getPopularMovies(page);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-
-      setMovies((prev) =>
-        page === 1
-          ? data.results
-          : [...prev, ...data.results]
-      );
-
-      setLoading(false);
     }
 
     fetchMovies();
   }, [debouncedSearch, page]);
 
-  // Reset to first page whenever search changes
   useEffect(() => {
     setPage(1);
   }, [debouncedSearch]);
 
   return (
     <div className="home">
-      <h1>🎬 Netflix Lite</h1>
+
+      {featuredMovie && (
+        <section
+          className="hero"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0,0,0,.55),
+              rgba(0,0,0,.9)),
+              url(https://image.tmdb.org/t/p/original${featuredMovie.backdrop_path})
+            `,
+          }}
+        >
+          <div className="hero-overlay">
+
+            <h1>
+              {featuredMovie.title}
+            </h1>
+
+            <div className="hero-meta">
+              <span>
+                ⭐{" "}
+                {featuredMovie.vote_average.toFixed(
+                  1
+                )}
+              </span>
+
+              <span>
+                📅{" "}
+                {featuredMovie.release_date?.slice(
+                  0,
+                  4
+                )}
+              </span>
+
+              <span>🎬 Movie</span>
+            </div>
+
+            <p>
+              {featuredMovie.overview}
+            </p>
+
+            <button className="watch-btn">
+              🎬 Watch Trailer
+            </button>
+
+          </div>
+        </section>
+      )}
 
       <SearchBar
         search={search}
@@ -69,6 +127,20 @@ function Home() {
         movies={movies}
         lastMovieRef={lastMovieRef}
       />
+
+      {loading && (
+        <h2
+          style={{
+            textAlign: "center",
+            margin: "30px",
+          }}
+        >
+          Loading...
+        </h2>
+      )}
+
+      <BackToTop />
+
     </div>
   );
 }

@@ -10,32 +10,45 @@ function MovieCard({ movie }) {
 
   return (
     <div className="movie-card">
-      <img
-        loading="lazy"
-        src={
-          IMAGE_BASE_URL + movie.poster_path
-        }
-        alt={movie.title}
-      />
 
-      <h3>{movie.title}</h3>
+      <div className="poster-container">
 
-      <p>{movie.release_date?.slice(0, 4)}</p>
+        <img
+          loading="lazy"
+          src={
+            movie.poster_path
+              ? IMAGE_BASE_URL +
+                movie.poster_path
+              : "https://via.placeholder.com/500x750?text=No+Image"
+          }
+          alt={movie.title}
+        />
 
-      <p>
-        ⭐ {movie.vote_average.toFixed(1)}
-      </p>
+        <span className="rating">
+          ⭐ {movie.vote_average.toFixed(1)}
+        </span>
 
-      <button
-        className="fav-btn"
-        onClick={() =>
-          toggleFavorite(movie)
-        }
-      >
-        {isFavorite(movie.id)
-          ? "❤️"
-          : "🤍"}
-      </button>
+        <button
+          className="fav-btn"
+          onClick={() =>
+            toggleFavorite(movie)
+          }
+        >
+          {isFavorite(movie.id)
+            ? "❤️"
+            : "🤍"}
+        </button>
+
+      </div>
+
+      <div className="movie-info">
+        <h3>{movie.title}</h3>
+
+        <p>
+          {movie.release_date?.slice(0, 4)}
+        </p>
+      </div>
+
     </div>
   );
 }
