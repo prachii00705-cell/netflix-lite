@@ -9,13 +9,22 @@ const api = axios.create({
 });
 
 export async function getPopularMovies(page = 1) {
-  const response = await api.get(`/movie/popular?page=${page}`);
+  const response = await api.get(
+    `/movie/popular?page=${page}`
+  );
+
   return response.data;
 }
 
-export async function searchMovies(query, page = 1) {
+export async function searchMovies(
+  query,
+  page = 1
+) {
   const response = await api.get(
-    `/search/movie?query=${encodeURIComponent(query)}&page=${page}`
+    `/search/movie?query=${encodeURIComponent(
+      query
+    )}&page=${page}`
   );
+
   return response.data;
 }
