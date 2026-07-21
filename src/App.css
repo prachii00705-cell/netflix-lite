@@ -414,6 +414,73 @@ transform:scale(.97);
 }
 
 /* ===========================
+   MOOD SEARCH
+=========================== */
+
+.mood-search{
+display:flex;
+justify-content:center;
+gap:15px;
+
+margin:35px auto;
+
+max-width:750px;
+}
+
+.mood-search input{
+
+flex:1;
+
+padding:18px 24px;
+
+border:none;
+outline:none;
+
+border-radius:50px;
+
+background:#111827;
+
+border:2px solid #374151;
+
+color:white;
+
+font-size:17px;
+}
+
+.mood-search input:focus{
+
+border-color:#ef4444;
+
+}
+
+.mood-search button{
+
+padding:18px 30px;
+
+border:none;
+
+border-radius:50px;
+
+background:#ef4444;
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.mood-search button:hover{
+
+background:#dc2626;
+
+transform:translateY(-2px);
+
+}
+
+/* ===========================
    RESPONSIVE
 =========================== */
 

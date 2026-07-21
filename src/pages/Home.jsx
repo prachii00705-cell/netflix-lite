@@ -5,8 +5,11 @@ import {
   searchMovies,
 } from "../services/tmdb";
 
+import { getMovieFromMood } from "../services/openrouter";
+
 import MovieGrid from "../components/MovieGrid";
 import SearchBar from "../components/SearchBar";
+import MoodSearch from "../components/MoodSearch";
 import BackToTop from "../components/BackToTop";
 
 import useDebounce from "../hooks/useDebounce";
@@ -30,6 +33,25 @@ function Home() {
       }
     });
 
+  async function handleMoodSearch(
+    mood
+  ) {
+    try {
+      setLoading(true);
+
+      const movieTitle =
+        await getMovieFromMood(mood);
+
+      setSearch(movieTitle);
+
+      setPage(1);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     async function fetchMovies() {
       setLoading(true);
@@ -43,15 +65,17 @@ function Home() {
             page
           );
         } else {
-          data = await getPopularMovies(
-            page
-          );
+          data =
+            await getPopularMovies(page);
         }
 
         setMovies((prev) =>
           page === 1
             ? data.results
-            : [...prev, ...data.results]
+            : [
+                ...prev,
+                ...data.results,
+              ]
         );
       } catch (error) {
         console.log(error);
@@ -63,10 +87,6 @@ function Home() {
     fetchMovies();
   }, [debouncedSearch, page]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch]);
-
   return (
     <div className="home">
 
@@ -75,9 +95,9 @@ function Home() {
           className="hero"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(0,0,0,.55),
-              rgba(0,0,0,.9)),
-              url(https://image.tmdb.org/t/p/original${featuredMovie.backdrop_path})
+            linear-gradient(rgba(0,0,0,.55),
+            rgba(0,0,0,.9)),
+            url(https://image.tmdb.org/t/p/original${featuredMovie.backdrop_path})
             `,
           }}
         >
@@ -103,7 +123,9 @@ function Home() {
                 )}
               </span>
 
-              <span>🎬 Movie</span>
+              <span>
+                🎬 Movie
+              </span>
             </div>
 
             <p>
@@ -120,7 +142,16 @@ function Home() {
 
       <SearchBar
         search={search}
-        setSearch={setSearch}
+        setSearch={(value) => {
+            setSearch(value);
+            setPage(1);
+        }}
+        />
+
+      <MoodSearch
+        onMoodSearch={
+          handleMoodSearch
+        }
       />
 
       <MovieGrid

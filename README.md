@@ -1,16 +1,34 @@
-# React + Vite
+# Netflix-Lite 🎬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Netflix-inspired movie discovery web application built using React.  
+The application allows users to explore popular movies, search for movies, discover movies based on moods using AI, and save their favorite movies.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🎥 Movie Discovery
+- Browse popular movies using TMDB API
+- Dynamic movie cards with posters and details
+- Featured hero section with trending movie backdrop
 
-## React Compiler
+### 🔍 Movie Search
+- Search movies by title
+- Debounced search for optimized API requests
+- Infinite scrolling for loading more movies
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🤖 AI Mood-Based Search
+- Users can search movies based on their mood
+- AI converts user moods into suitable movie recommendations
+- Integrated using OpenRouter API
 
-## Expanding the ESLint configuration
+## Live Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Screenshots
+### Desktop View
+![Desktop View](src/assets/desktop.png)
+
+### Mobile View
+![Mobile View](src/assets/mobile.png)
+
+### Lighthouse Report
+![Lighthouse Report](src/assets/lighthouse.png)
